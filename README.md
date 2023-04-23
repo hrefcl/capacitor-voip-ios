@@ -2,12 +2,110 @@
 
 Capacito Pluging VoiP Ios CallKit
 
-## Install
+## 1 Install
 
 ```bash
 npm install capacitor-voip-ios
 npx cap sync
 ```
+
+
+## 2. Xcode Project > Capabilities pane. Select the checkbox for Voice over IP, as shown in Image
+
+![](https://miro.medium.com/max/700/1*zVc9U601x_qUqweRKfsfow.png)
+
+## 3. Register certificate on  [developer.apple.com/certificates](https://developer.apple.com/certificates) 
+
+![](https://miro.medium.com/max/700/1*Z2q66Vo2Emho4_IVXRN8GQ.png)
+
+## 4. Download the certificate and open it to import it into the Keychain Access app.
+
+## 5. Export certificates as shown bellow 
+
+![](https://miro.medium.com/max/700/1*7N7d7-dEa6WAMzWbFXO66A.png)
+
+## 6. Now, navigate to the folder where you exported this file and execute following command:
+```bash
+openssl pkcs12 -in YOUR_CERTIFICATES.p12 -out app.pem -nodes -clcerts
+```
+
+## 7. You will receive `app.pem` certificate file that can be used to send VOIP notification (you can use my script bellow)
+
+## Usage
+
+To make this plugin work, you need to call `.register({topic:'videocall'})` method and then you can use API bellow.
+
+```typescript
+import {CapacitorVoipIos} from "capacitor-voip-ios"
+
+
+async function registerVoipNotification(){
+    // register token 
+    CapacitorVoipIos.addListener("registration", (({token}) =>
+      console.log(`VOIP token has been received ${token}`)
+    ))
+  
+    // start call
+    CapacitorVoipIos.addListener("callAnswered", (({username, connectionId, joinToken, meetingId}) => 
+            console.log(`VOIP username ${username}`);
+            console.log(`VOIP connectionId ${connectionId}`);
+            console.log(`VOIP meetingId ${meetingId}`);
+            console.log(`VOIP joinToken ${joinToken}`);
+    ));
+    
+    // init plugin, start registration of VOIP notifications 
+    await CapacitorVoipIos.register({
+        topic:'videocall'
+    }); // can be used with `.then()`
+    console.log("Push notification has been registered")
+  
+}
+```
+
+Once the plugin is installed, the only thing that you need to do is to push a VOIP notification with the following data payload structure:
+
+```json
+{
+    "Username"      : "Display Name",
+    "ConnectionId"  : "Unique Call ID",
+    "MeetingId"     : "Id Meet",
+    "JoinToken"     : "Token Meet"
+}
+```
+
+You can use my script (bellow) to test it out: 
+`./sendVoip.sh <connectionId> <deviceToken> <username>`
+
+### sendVoip.sh:
+```shell
+#!/bin/bash
+
+function main {
+    connectionId=${1:?"connectionId should be specified"}
+    token=${2:?"Enter device token that you received on register listener"}
+    username=${3:-Anonymus"}
+
+    curl -v \
+    -d "{\"aps\":{\"alert\":\"Incoming call\", \"content-available\":\"1\"}, \"Username\": \"${username}\", \"ConnectionId\": \"${connectionId}\"}" \
+    -H "apns-topic: <YOUR_BUNDLE_ID>.voip" \
+    -H "apns-push-type: voip" \
+    -H "apns-priority: 10" \
+    --http2 \
+    --cert app.pem \
+"https://api.development.push.apple.com/3/device/${token}"
+}
+
+main $@
+```
+
+### Pay attention:
+
+- replace  <YOUR_BUNDLE_ID> with your app bundle 
+- ensure that you are using correct voip certificate (specified in `--cert app.pem`)
+- if you'll go to production version, you will need to do request to `api.push.apple.com/3/device/${token}` instead of
+  `api.development.push.apple.com/3/device/${token}`, otherwise you will receive `BadDeviceToken` issue
+  
+
 
 ## API
 

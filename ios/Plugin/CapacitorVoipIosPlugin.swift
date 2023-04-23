@@ -46,7 +46,7 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
         }
     }
     
-     public func incommingCall(from: String, connectionId: String, meetingId: String, joinToken: String) {
+    public func incommingCall(from: String, connectionId: String, meetingId: String, joinToken: String, imageUrl: String) {
         let update = CXCallUpdate()
         update.remoteHandle = CXHandle(type: .generic, value: from)
         update.hasVideo = true
@@ -57,9 +57,10 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
         update.hasVideo = true
         
         let uuid = UUID()
-        connectionIdRegistry[uuid] = .init(connectionId: connectionId, username: from, meetingId: meetingId, joinToken: joinToken)
+        connectionIdRegistry[uuid] = .init(connectionId: connectionId, username: from, meetingId: meetingId, joinToken: joinToken, imageUrl: imageUrl)
         self.provider?.reportNewIncomingCall(with: uuid, update: update, completion: { (_) in })
     }
+
     
     
 
@@ -132,7 +133,8 @@ extension CapacitorVoipIosPlugin {
     struct CallConfig {
         let connectionId: String
         let username    : String
-        let meetingId    : String
-        let joinToken    : String
+        let meetingId   : String
+        let joinToken   : String
+        let imageUrl    : String
     }
 }

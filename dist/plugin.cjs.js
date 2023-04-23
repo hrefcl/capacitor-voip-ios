@@ -9,9 +9,12 @@ const CapacitorVoipIos = core.registerPlugin('CapacitorVoipIos', {
 });
 
 class CapacitorVoipIosWeb extends core.WebPlugin {
-    async echo(options) {
-        console.log('ECHO', options);
-        return options;
+    async register() {
+        return;
+    }
+    async incomingCall({ from }) {
+        console.log(from);
+        return;
     }
 }
 

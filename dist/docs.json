@@ -6,26 +6,295 @@
     "tags": [],
     "methods": [
       {
-        "name": "echo",
-        "signature": "(options: { value: string; }) => Promise<{ value: string; }>",
+        "name": "register",
+        "signature": "(options: { topic: string; }) => Promise<void>",
         "parameters": [
           {
             "name": "options",
             "docs": "",
-            "type": "{ value: string; }"
+            "type": "{ topic: string; }"
           }
         ],
-        "returns": "Promise<{ value: string; }>",
+        "returns": "Promise<void>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
-        "slug": "echo"
+        "slug": "register"
+      },
+      {
+        "name": "incomingCall",
+        "signature": "(options: { from: string; }) => Promise<void>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ from: string; }"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "incomingcall"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'registration', listenerFunc: (token: Token) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'registration'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(token: Token) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "Token"
+        ],
+        "slug": "addlistenerregistration"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'callAnswered', listenerFunc: (callDate: CallData) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'callAnswered'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(callDate: CallData) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "CallData"
+        ],
+        "slug": "addlistenercallanswered"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'callStarted', listenerFunc: (callDate: CallData) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'callStarted'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(callDate: CallData) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "CallData"
+        ],
+        "slug": "addlistenercallstarted"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'callCancelled', listenerFunc: (callDate: CallData) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'callCancelled'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(callDate: CallData) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "CallData"
+        ],
+        "slug": "addlistenercallcancelled"
       }
     ],
     "properties": []
   },
-  "interfaces": [],
+  "interfaces": [
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => Promise<void>"
+        }
+      ]
+    },
+    {
+      "name": "Token",
+      "slug": "token",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "CallData",
+      "slug": "calldata",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "connectionId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "meetingId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "joinToken",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "MessageCallData",
+      "slug": "messagecalldata",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "'message' | undefined"
+        },
+        {
+          "name": "callbackId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "pluginId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "methodName",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "options",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "any"
+        }
+      ]
+    },
+    {
+      "name": "ErrorCallData",
+      "slug": "errorcalldata",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "'js.error'"
+        },
+        {
+          "name": "error",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "{ message: string; url: string; line: number; col: number; errorObject: string; }"
+        }
+      ]
+    }
+  ],
   "enums": [],
-  "typeAliases": [],
+  "typeAliases": [
+    {
+      "name": "CallData",
+      "slug": "calldata",
+      "docs": "",
+      "types": [
+        {
+          "text": "MessageCallData",
+          "complexTypes": [
+            "MessageCallData"
+          ]
+        },
+        {
+          "text": "ErrorCallData",
+          "complexTypes": [
+            "ErrorCallData"
+          ]
+        }
+      ]
+    }
+  ],
   "pluginConfigs": []
 }

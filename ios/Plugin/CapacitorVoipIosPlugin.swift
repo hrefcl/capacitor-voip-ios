@@ -85,14 +85,9 @@ extension CapacitorVoipIosPlugin: CXProviderDelegate {
     public func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
         print("call answered")
         notifyEvent(eventName: "callAnswered", uuid: action.callUUID)
-//        endCall(uuid: action.callUUID)
         action.fulfill()
     }
-    
-    public func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-        action.fulfill()
-    }
-    
+
     public func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
         notifyEvent(eventName: "callStarted", uuid: action.callUUID)
         action.fulfill()
@@ -120,11 +115,14 @@ extension CapacitorVoipIosPlugin: PKPushRegistryDelegate {
             return
         }
         
-        let username        = (payload.dictionaryPayload["Username"] as? String) ?? "Anonymus"
+        let username = (payload.dictionaryPayload["Username"] as? String) ?? "Anonymus"
+        let meetingId = (payload.dictionaryPayload["MeetingId"] as? String) ?? ""
+        let joinToken = (payload.dictionaryPayload["JoinToken"] as? String) ?? ""
+        let imageUrl = (payload.dictionaryPayload["ImageUrl"] as? String) ?? ""
         
-        
-        self.incommingCall(from: username, connectionId: connectionId)
+        self.incommingCall(from: username, connectionId: connectionId, meetingId: meetingId, joinToken: joinToken, imageUrl: imageUrl)
     }
+
     
 }
 

@@ -7,8 +7,6 @@
   "types": "dist/esm/index.d.ts",
   "unpkg": "dist/plugin.js",
   "files": [
-    "android/src/main/",
-    "android/build.gradle",
     "dist/",
     "ios/Plugin/",
     "CapacitorVoipIos.podspec"
@@ -50,11 +48,11 @@
     "@ionic/eslint-config": "^0.3.0",
     "@ionic/prettier-config": "^2.0.0",
     "@ionic/swiftlint-config": "^1.1.2",
-    "eslint": "^8.39.0",
+    "eslint": "^7.11.0",
     "prettier": "~2.8.8",
     "prettier-plugin-java": "~2.1.0",
     "rimraf": "^5.0.0",
-    "rollup": "^3.20.7",
+    "rollup": "^2.32.0",
     "swiftlint": "^1.0.1",
     "typescript": "~5.0.4"
   },

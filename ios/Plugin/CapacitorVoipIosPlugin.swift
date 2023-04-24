@@ -46,7 +46,7 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
         }
     }
     
-    public func incommingCall(from: String, connectionId: String, meetingId: String, joinToken: String, imageUrl: String) {
+    public func incommingCall(from: String, connectionId: String, meetingId: String, joinToken: String, params: [String: Any]) {
         let update = CXCallUpdate()
         update.remoteHandle = CXHandle(type: .generic, value: from)
         update.hasVideo = true
@@ -57,7 +57,7 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
         update.hasVideo = true
         
         let uuid = UUID()
-        connectionIdRegistry[uuid] = .init(connectionId: connectionId, username: from, meetingId: meetingId, joinToken: joinToken, imageUrl: imageUrl)
+        connectionIdRegistry[uuid] = .init(connectionId: connectionId, username: from, meetingId: meetingId, joinToken: joinToken, params: params)
         self.provider?.reportNewIncomingCall(with: uuid, update: update, completion: { (_) in })
     }
 
@@ -118,9 +118,9 @@ extension CapacitorVoipIosPlugin: PKPushRegistryDelegate {
         let username = (payload.dictionaryPayload["Username"] as? String) ?? "Anonymus"
         let meetingId = (payload.dictionaryPayload["MeetingId"] as? String) ?? ""
         let joinToken = (payload.dictionaryPayload["JoinToken"] as? String) ?? ""
-        let imageUrl = (payload.dictionaryPayload["ImageUrl"] as? String) ?? ""
+         let params = (payload.dictionaryPayload["Params"] as? [String: Any]) ?? [:]
         
-        self.incommingCall(from: username, connectionId: connectionId, meetingId: meetingId, joinToken: joinToken, imageUrl: imageUrl)
+        self.incommingCall(from: username, connectionId: connectionId, meetingId: meetingId, joinToken: joinToken, params: params)
     }
 
     
@@ -133,6 +133,6 @@ extension CapacitorVoipIosPlugin {
         let username    : String
         let meetingId   : String
         let joinToken   : String
-        let imageUrl    : String
+        let params      : [String: Any]
     }
 }

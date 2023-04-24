@@ -234,12 +234,13 @@ addListener(eventName: 'callCancelled', listenerFunc: (callDate: CallData) => vo
 
 #### CallData
 
-| Prop               | Type                |
-| ------------------ | ------------------- |
-| **`connectionId`** | <code>string</code> |
-| **`username`**     | <code>string</code> |
-| **`meetingId`**    | <code>string</code> |
-| **`joinToken`**    | <code>string</code> |
+| Prop               | Type                                 |
+| ------------------ | ------------------------------------ |
+| **`connectionId`** | <code>string</code>                  |
+| **`username`**     | <code>string</code>                  |
+| **`meetingId`**    | <code>string</code>                  |
+| **`joinToken`**    | <code>string</code>                  |
+| **`params`**       | <code>{ [key: string]: any; }</code> |
 
 
 #### MessageCallData

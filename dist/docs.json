@@ -203,6 +203,13 @@
           "docs": "",
           "complexTypes": [],
           "type": "string | undefined"
+        },
+        {
+          "name": "params",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "{ [key: string]: any; } | undefined"
         }
       ]
     },

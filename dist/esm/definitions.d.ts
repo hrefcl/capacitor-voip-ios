@@ -19,4 +19,7 @@ export declare interface CallData {
     username?: string;
     meetingId?: string;
     joinToken?: string;
+    params?: {
+        [key: string]: any;
+    };
 }

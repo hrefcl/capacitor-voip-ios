@@ -19,7 +19,7 @@ export interface CapacitorVoipIosPlugin {
     eventName: 'callStarted',
     listenerFunc: (callDate: CallData) => void
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
-  
+
   addListener(
     eventName: 'callCancelled',
     listenerFunc: (callDate: CallData) => void
@@ -34,4 +34,5 @@ export declare interface CallData {
   username?: string;
   meetingId?: string;
   joinToken?: string;
+  params?: { [key: string]: any };
 }

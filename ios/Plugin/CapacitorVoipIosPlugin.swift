@@ -115,10 +115,10 @@ extension CapacitorVoipIosPlugin: PKPushRegistryDelegate {
             return
         }
         
-        let username = (payload.dictionaryPayload["Username"] as? String) ?? "Anonymus"
+        let username = (payload.dictionaryPayload["Username"] as? String) ?? "Desconocido"
         let meetingId = (payload.dictionaryPayload["MeetingId"] as? String) ?? ""
         let joinToken = (payload.dictionaryPayload["JoinToken"] as? String) ?? ""
-         let params = (payload.dictionaryPayload["Params"] as? [String: Any]) ?? [:]
+        let params = (payload.dictionaryPayload["Params"] as? [String: Any]) ?? [:]
         
         self.incommingCall(from: username, connectionId: connectionId, meetingId: meetingId, joinToken: joinToken, params: params)
     }

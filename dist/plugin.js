@@ -8,9 +8,10 @@ var capacitorCapacitorVoipIos = (function (exports, core) {
     class CapacitorVoipIosWeb extends core.WebPlugin {
         async register() {
             if (core.Capacitor.getPlatform() !== 'ios') {
-                throw new Error('CapacitorVoipIos plugin is not implemented on this platform');
+                console.error('CapacitorVoipIos plugin is not implemented on this platform');
             }
-            return;
+            else
+                return;
         }
         async incomingCall({ from }) {
             console.log(from);

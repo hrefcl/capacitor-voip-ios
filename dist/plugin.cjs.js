@@ -11,7 +11,7 @@ const CapacitorVoipIos = core.registerPlugin('CapacitorVoipIos', {
 class CapacitorVoipIosWeb extends core.WebPlugin {
     async register() {
         if (core.Capacitor.getPlatform() !== 'ios') {
-            console.error('CapacitorVoipIos plugin is not implemented on this platform');
+            console.info('CapacitorVoipIos plugin is not implemented on this platform');
         }
         else
             return;

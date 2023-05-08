@@ -3,7 +3,7 @@ import Capacitor
 import UIKit
 import CallKit
 import PushKit
-import TwilioVideo
+
 
 /**
  *  CallKit Voip Plugin provides native PushKit functionality with apple CallKit to ionic capacitor
@@ -12,6 +12,7 @@ import TwilioVideo
 public class CapacitorVoipIosPlugin: CAPPlugin {
     
     private var provider: CXProvider?
+    private let implementation          = CallKitVoip()
     private let voipRegistry            = PKPushRegistry(queue: nil)
     private var connectionIdRegistry : [UUID: CallConfig] = [:]
     
@@ -31,16 +32,15 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
         
         call.resolve()
     }
-
-    @objc func incomingCall(_ call: CAPPluginCall) {
-        // TODO
-    }
-
+    
     public func notifyEvent(eventName: String, uuid: UUID){
         if let config = connectionIdRegistry[uuid] {
             notifyListeners(eventName, data: [
                 "connectionId": config.connectionId,
-                "username"    : config.username
+                "username"    : config.username,
+                "meetingId"   : config.meetingId,
+                "joinToken"   : config.joinToken,
+                "params"      : config.params
             ])
             connectionIdRegistry[uuid] = nil
         }
@@ -49,12 +49,7 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
     public func incommingCall(from: String, connectionId: String, meetingId: String, joinToken: String, params: [String: Any]) {
         let update = CXCallUpdate()
         update.remoteHandle = CXHandle(type: .generic, value: from)
-        update.hasVideo = true
-        update.supportsDTMF = false
-        update.supportsHolding = true
-        update.supportsGrouping = false
-        update.supportsUngrouping = false
-        update.hasVideo = true
+        update.hasVideo     = true
         
         let uuid = UUID()
         connectionIdRegistry[uuid] = .init(connectionId: connectionId, username: from, meetingId: meetingId, joinToken: joinToken, params: params)
@@ -85,6 +80,7 @@ extension CapacitorVoipIosPlugin: CXProviderDelegate {
     public func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
         print("call answered")
         notifyEvent(eventName: "callAnswered", uuid: action.callUUID)
+        endCall(uuid: action.callUUID)
         action.fulfill()
     }
 
@@ -111,6 +107,9 @@ extension CapacitorVoipIosPlugin: PKPushRegistryDelegate {
     
     public func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
         
+        // Imprime todo el contenido del payload recibido
+        print("Payload recibido: \(payload.dictionaryPayload)")
+
         guard let connectionId = payload.dictionaryPayload["ConnectionId"] as? String else {
             return
         }

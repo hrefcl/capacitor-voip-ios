@@ -5,7 +5,7 @@ import type { CapacitorVoipIosPlugin } from './definitions';
 export class CapacitorVoipIosWeb extends WebPlugin implements CapacitorVoipIosPlugin {
   async register(): Promise<void> {
     if (Capacitor.getPlatform() !== 'ios') {
-      console.error('CapacitorVoipIos plugin is not implemented on this platform');
+      console.info('CapacitorVoipIos plugin is not implemented on this platform');
     } else return;
   }
 

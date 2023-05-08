@@ -31,6 +31,14 @@ openssl pkcs12 -in YOUR_CERTIFICATES.p12 -out app.pem -nodes -clcerts
 
 ## 7. You will receive `app.pem` certificate file that can be used to send VOIP notification (you can use my script bellow)
 
+## 8. Recommendation NODEJS
+
+If you want to use Node Js to send notifications, you must do it via APN, which is a direct module to send PushNotification.
+
+```bash
+npm install apn --save // In your project nodejs
+```
+
 ## Usage
 
 To make this plugin work, you need to call `.register({topic:'videocall'})` method and then you can use API bellow.
@@ -69,7 +77,8 @@ Once the plugin is installed, the only thing that you need to do is to push a VO
     "Username"      : "Display Name",
     "ConnectionId"  : "Unique Call ID",
     "MeetingId"     : "Id Meet",
-    "JoinToken"     : "Token Meet"
+    "JoinToken"     : "Token Meet",
+    "Params"        : "Object with params"
 }
 ```
 

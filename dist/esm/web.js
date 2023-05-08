@@ -2,7 +2,7 @@ import { WebPlugin, Capacitor } from '@capacitor/core';
 export class CapacitorVoipIosWeb extends WebPlugin {
     async register() {
         if (Capacitor.getPlatform() !== 'ios') {
-            console.error('CapacitorVoipIos plugin is not implemented on this platform');
+            console.info('CapacitorVoipIos plugin is not implemented on this platform');
         }
         else
             return;

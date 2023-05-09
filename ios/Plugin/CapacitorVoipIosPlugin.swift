@@ -16,8 +16,6 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
     private let voipRegistry            = PKPushRegistry(queue: nil)
     private var connectionIdRegistry : [UUID: CallConfig] = [:]
     
-
-
     @objc func register(_ call: CAPPluginCall) {
         // config PushKit
         voipRegistry.delegate = self
@@ -55,10 +53,6 @@ public class CapacitorVoipIosPlugin: CAPPlugin {
         connectionIdRegistry[uuid] = .init(connectionId: connectionId, username: from, meetingId: meetingId, joinToken: joinToken, params: params)
         self.provider?.reportNewIncomingCall(with: uuid, update: update, completion: { (_) in })
     }
-
-    
-    
-
     
     public func endCall(uuid: UUID) {
         let controller = CXCallController()
@@ -83,17 +77,19 @@ extension CapacitorVoipIosPlugin: CXProviderDelegate {
         endCall(uuid: action.callUUID)
         action.fulfill()
     }
-
-    public func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
-        notifyEvent(eventName: "callStarted", uuid: action.callUUID)
-        action.fulfill()
-    }
-
+    
     public func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
         print("call cancelled")
         notifyEvent(eventName: "callCancelled", uuid: action.callUUID)
         action.fulfill()
     }
+    
+    public func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
+        notifyEvent(eventName: "callStarted", uuid: action.callUUID)
+        action.fulfill()
+    }
+    
+    
 }
 
 // MARK: PushKit events handler
@@ -109,7 +105,7 @@ extension CapacitorVoipIosPlugin: PKPushRegistryDelegate {
         
         // Imprime todo el contenido del payload recibido
         print("Payload recibido: \(payload.dictionaryPayload)")
-
+        
         guard let connectionId = payload.dictionaryPayload["ConnectionId"] as? String else {
             return
         }
@@ -121,7 +117,7 @@ extension CapacitorVoipIosPlugin: PKPushRegistryDelegate {
         
         self.incommingCall(from: username, connectionId: connectionId, meetingId: meetingId, joinToken: joinToken, params: params)
     }
-
+    
     
 }
 

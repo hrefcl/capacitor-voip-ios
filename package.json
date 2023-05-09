@@ -1,7 +1,7 @@
 {
   "name": "capacitor-voip-ios",
-  "version": "1.0.2",
-  "description": "Capacito Pluging VoiP Ios CallKit",
+  "version": "1.0.4",
+  "description": "Capacitor Plugins VoiP Ios CallKit",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
